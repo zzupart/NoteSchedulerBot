@@ -9,5 +9,4 @@ async def on_startup(_):
 bot = Bot(cfg.TgTOKEN)
 dp = Dispatcher(bot)
 
-
 executor.start_polling(dp, on_startup = on_startup)

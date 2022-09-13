@@ -1,3 +1,4 @@
+from datetime import datetime
 import aiosqlite
 
 async def service():
@@ -6,8 +7,9 @@ async def service():
     rows = await cursor.fetchall()
 
     for row in rows:
-        print(row[0])
-        print(row[1])
-        print(row[2])
-    
-    
+        now = datetime.now()
+        note_date = row[1]
+        if now >= note_date:
+            pass # отправляем челику
+        else:
+            return

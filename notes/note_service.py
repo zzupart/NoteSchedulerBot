@@ -11,6 +11,7 @@ async def connect():
     db = await aiosqlite.connect("notes.db")
     await db.execute("""CREATE TABLE IF NOT EXISTS notes (user_id INT, date DATETIME, message TEXT)""")
     await db.commit()
+    print('Bot connected to database')
 
 async def service():
     db = await aiosqlite.connect("notes.db")

@@ -1,16 +1,17 @@
 from database import database
 from create_bot import dp, bot
-from aiogram import Dispatcher, types
-from aiogram.dispatcher import FSMContext, State, StatesGroup
+from aiogram import types
+from aiogram.dispatcher import Dispatcher, FSMContext
+from aiogram.dispatcher.filters.state import State, StatesGroup
 
-class NoteMaker(StateGroup):
+class NoteMaker(StatesGroup):
     note = State()
     date = State()
 
 async def command_start(msg: types.message):
     await bot.send_message(msg.from_user.id, 'Hi!🖐️ I am Note Scheduler - bot, created to help people make notes📜')
 
-async def command_make_note(msg: types.maessage):
+async def command_make_note(msg: types.message):
     await bot.send_message(msg.from_user.id, 'Alright, a new note\nSend message to note')
     await NoteMaker.note.set()
 

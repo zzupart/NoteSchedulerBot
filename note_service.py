@@ -1,10 +1,10 @@
 from datetime import datetime
-import aiosqlite
+from database import database
+from bot import dp
+
 
 async def service():
-    db = await aiosqlite.connect("notes.db")
-    cursor = await db.execute("""SELECT * from notes""")
-    rows = await cursor.fetchall()
+    rows = await database.execute("""SELECT * FROM notes""", select=True, all=True)
 
     for row in rows:
         now = datetime.now()

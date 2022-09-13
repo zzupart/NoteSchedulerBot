@@ -6,7 +6,7 @@ from note_service import service
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 scheduler = AsyncIOScheduler()
-scheduler.add_job(service, "interval", minutes=1)
+scheduler.add_job(service, "interval", seconds=30)
 scheduler.start()
 
 async def on_startup(_):

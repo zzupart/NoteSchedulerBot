@@ -1,21 +1,14 @@
 from datetime import datetime
-import aiosqlite
+from database import database
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-async def start_db():
+async def start_service():
     scheduler = AsyncIOScheduler() 
     scheduler.add_job(service, "interval", minutes=1)
     scheduler.start()
 
-async def connect():
-    db = await aiosqlite.connect("notes.db")
-    await db.execute("""CREATE TABLE IF NOT EXISTS notes (user_id INT, date DATETIME, message TEXT)""")
-    await db.commit()
-
 async def service():
-    db = await aiosqlite.connect("notes.db")
-    cursor = await db.execute("""SELECT * from notes""")
-    rows = await cursor.fetchall()
+    rows = await database.execute("""SELECT * FROM notes""", select=True, all=True)
 
     for row in rows:
         now = datetime.now()

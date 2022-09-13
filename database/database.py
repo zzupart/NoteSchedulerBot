@@ -1,4 +1,6 @@
+from datetime import datetime
 from typing import Iterable, Any
+from xmlrpc.client import DateTime
 from aiosqlite import connect, Cursor, Row
 from aiosqlite.context import Result
 
@@ -18,3 +20,7 @@ class database:
                 return await cursor.fetchone()
         else:
             return await db.execute(sql, params)
+    async def insert_note(user_id, date, message):
+        db = await connect("notes.db")
+        await db.execute("""INSERT INTO notes (user_id, date, message) VALUES (?, ?, ?)""", (user_id, date, message))
+        await db.commit()

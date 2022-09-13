@@ -1,11 +1,13 @@
 from create_bot import dp
 from aiogram.utils import executor
 from handlers import client, admin, other
+from database import database
 from notes import note_service
 
+
 async def on_startup(_):
-    await note_service.start_db()
-    await note_service.connect()
+    await database.setup()
+    await note_service.start_service()
     print('Bot succesfuly started')
 
 client.register_handlers(dp)

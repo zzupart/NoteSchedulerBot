@@ -1,12 +1,12 @@
-from aiogram import Bot
-from aiogram.dispatcher import Dispatcher
+from create_bot import dp
 from aiogram.utils import executor
-import config as cfg
+from handlers import client, admin, other
 
 async def on_startup(_):
     print('Bot succesfuly started')
 
-bot = Bot(cfg.TgTOKEN)
-dp = Dispatcher(bot)
+client.register_handlers(dp)
+admin.register_handlers(dp)
+other.register_handlers(dp)
 
 executor.start_polling(dp, on_startup = on_startup)

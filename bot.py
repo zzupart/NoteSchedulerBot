@@ -14,4 +14,4 @@ client.register_handlers(dp)
 admin.register_handlers(dp)
 other.register_handlers(dp)
 
-executor.start_polling(dp, on_startup = on_startup)
+executor.start_polling(dp, skip_updates = True,on_startup = on_startup)

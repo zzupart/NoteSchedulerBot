@@ -17,7 +17,7 @@ async def command_make_note(msg: types.message):
 
 async def send_notification(msg: types.message):
     notification = msg.text
-    await bot.send_message(msg.from_user.id, 'Okey, now send a date when you want to return your note')
+    await bot.send_message(msg.from_user.id, 'Okey, now send a time to count when you want to return your note in format x seconds(xs), x minutes(xm), x hours(xh), x days(xd)\nFor example: 25m')
     await NoteMaker.next()
 
 async def send_date(msg: types.message):
@@ -30,4 +30,7 @@ async def send_date(msg: types.message):
         await bot.send_message(msg.from_user.id, 'New notification created sucessfuly')
 
 def register_handlers(dp: Dispatcher):
+    dp.register_message_handler(send_notification, state = NoteMaker.note)
+    dp.register_message_handler(send_date, state = NoteMaker.date)
     dp.register_message_handler(command_start, commands = ['start', 'help'])
+    dp.register_message_handler(command_make_note, commands = ['make_note'])

@@ -44,9 +44,19 @@ async def send_date(msg: types.message, state: FSMContext):
     else:
         await bot.send_message(msg.from_user.id, 'New notification created sucessfuly')
     await state.finish()
-
+async def command_my_notes(msg: types.message):
+    rows = await database.execute("""SELECT * FROM notes WHERE user_id = ?""", (msg.from_user.id,), select=True, all=True)
+    gen = ""
+    for row in rows:
+        gen += f"{row[2]}: {row[1]}"
+    if gen == "":
+        await bot.send_message(msg.from_user.id, "Not found your notes.")
+    else:
+        await bot.send_message(msg.from_user.id, gen)
 def register_handlers(dp: Dispatcher):
     dp.register_message_handler(send_notification, state = NoteMaker.note)
     dp.register_message_handler(send_date, state = NoteMaker.date)
     dp.register_message_handler(command_start, commands = ['start', 'help'])
     dp.register_message_handler(command_make_note, commands = ['make_note'])
+    dp.register_message_handler(command_my_notes, commands = ['my_notes'])
+

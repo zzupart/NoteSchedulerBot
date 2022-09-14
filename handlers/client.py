@@ -23,9 +23,9 @@ async def send_notification(msg: types.message):
     await bot.send_message(msg.from_user.id, 'Okey, now send a time to count when you want to return your note in format x seconds(xs), x minutes(xm), x hours(xh), x days(xd)\nFor example: 25m')
     await NoteMaker.next()
 
-async def send_date(msg: types.message):
+async def send_date(msg: types.message, state: FSMContext):
     date = msg.text
-    time_list = re.split('(\d+)', date)
+    time_list = re.split('', date)
     time_in_s = None
     if time_list[2] == "s":
         time_in_s = int(time_list[1])
@@ -43,7 +43,7 @@ async def send_date(msg: types.message):
         await bot.send_message(msg.from_user.id, 'Error, please make sure you send correct date')
     else:
         await bot.send_message(msg.from_user.id, 'New notification created sucessfuly')
-    await NoteMaker.finish()
+    await state.finish()
 
 def register_handlers(dp: Dispatcher):
     dp.register_message_handler(send_notification, state = NoteMaker.note)

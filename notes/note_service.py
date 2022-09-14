@@ -14,5 +14,6 @@ async def service():
     for row in rows:
         if datetime.now() >= datetime.fromisoformat(row[1]):
             await bot.send_message(row[0], row[2])
+            await database.delete_note(row[0], row[1], row[3])
         else:
             return

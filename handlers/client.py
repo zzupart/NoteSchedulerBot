@@ -22,6 +22,18 @@ async def send_notification(msg: types.message):
 
 async def send_date(msg: types.message):
     date = msg.text
+    time_list = re.split('(\d+)', time)
+    time_in_s = None
+    if time_list[2] == "s":
+        time_in_s = int(time_list[1])
+    elif time_list[2] == "m":
+        time_in_s = int(time_list[1]) * 60
+    elif time_list[2] == "h":
+        time_in_s = int(time_list[1]) * 60 * 60
+    elif time_list[2] == "d":
+        time_in_s = int(time_list[1]) * 60 * 60 * 24
+    elif time == 0 or time == "0":
+        pass
     try:
         await insert_note(msg.from_user.id, date, notification)
     except:

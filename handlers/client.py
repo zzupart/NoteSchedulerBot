@@ -18,6 +18,7 @@ async def command_make_note(msg: types.message):
     await NoteMaker.note.set()
 
 async def send_notification(msg: types.message):
+    global notification
     notification = msg.text
     await bot.send_message(msg.from_user.id, 'Okey, now send a time to count when you want to return your note in format x seconds(xs), x minutes(xm), x hours(xh), x days(xd)\nFor example: 25m')
     await NoteMaker.next()
@@ -35,13 +36,14 @@ async def send_date(msg: types.message):
     elif time_list[2] == "d":
         time_in_s = int(time_list[1]) * 60 * 60 * 24
     elif date == 0 or date == "0":
-        pass
+        print('Turip ip ip')
     try:
         await database.insert_note(msg.from_user.id, datetime.now() + timedelta(seconds=time_in_s), notification)
     except:
         await bot.send_message(msg.from_user.id, 'Error, please make sure you send correct date')
     else:
         await bot.send_message(msg.from_user.id, 'New notification created sucessfuly')
+    await NoteMaker.finish()
 
 def register_handlers(dp: Dispatcher):
     dp.register_message_handler(send_notification, state = NoteMaker.note)

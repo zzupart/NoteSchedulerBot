@@ -1,5 +1,6 @@
 from datetime import datetime
 from database import database
+from create_bot import bot
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 async def start_service():
@@ -14,6 +15,6 @@ async def service():
         now = datetime.now()
         note_date = row[1]
         if now >= note_date:
-            pass # отправляем челику
+            await bot.send_message(row[0], row[2])
         else:
             return

@@ -1,4 +1,4 @@
-from create_bot import dp
+from create_bot import dp, bot
 from aiogram.utils import executor
 from handlers import client, admin, other
 from database import database

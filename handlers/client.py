@@ -30,11 +30,7 @@ async def send_notification(msg: types.message):
 
 async def send_date(msg: types.message, state: FSMContext):
     date = msg.text
-<<<<<<< HEAD
-    time_list = re.split('\d+', date)
-=======
     time_list = re.split('(\d+)', date)
->>>>>>> ca2b91db40b9035c92a8d0c5f73ab2ed2513ff95
     time_in_s = None
     if time_list[2] == "s":
         time_in_s = int(time_list[1])

@@ -16,7 +16,7 @@ async def command_start(msg: types.message):
     await bot.send_message(msg.from_user.id, 'Hi!🖐️ I am Note Scheduler - bot, created to help people make notes📜', reply_markup = client_kb.kb_client)
 
 async def command_credits(msg: types.message):
-    bot.send_message(msg.from_user.id, 'Developers of this bot⌨️:\n@osp54\n@zzupart')
+    await bot.send_message(msg.from_user.id, 'Developers of this bot⌨️:\n@osp54\n@zzupart')
 
 async def command_make_note(msg: types.message):
     await bot.send_message(msg.from_user.id, 'Alright, a new note\nSend message to note', reply_markup = ReplyKeyboardRemove())
@@ -30,7 +30,7 @@ async def send_notification(msg: types.message):
 
 async def send_date(msg: types.message, state: FSMContext):
     date = msg.text
-    time_list = re.split('', date)
+    time_list = re.split('\d+', date)
     time_in_s = None
     if time_list[2] == "s":
         time_in_s = int(time_list[1])
@@ -66,4 +66,4 @@ def register_handlers(dp: Dispatcher):
     dp.register_message_handler(command_start, commands = ['start', 'help'])
     dp.register_message_handler(command_make_note, commands = ['make_note📜'])
     dp.register_message_handler(command_my_notes, commands = ['my_notes🔔'])
-    dp.register_message_handler(command_my_notes, commands = ['credits💻'])
+    dp.register_message_handler(command_credits, commands = ['credits💻'])

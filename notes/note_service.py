@@ -9,7 +9,7 @@ async def start_service():
     scheduler.start()
 
 async def service():
-    rows = await database.execute("""SELECT * FROM db""", select=True, all=True)
+    rows = await database.execute("""SELECT * FROM notes""", select=True, all=True)
 
     for row in rows:
         if datetime.now() >= datetime.fromisoformat(row[1]):

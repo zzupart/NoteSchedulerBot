@@ -30,7 +30,7 @@ async def send_notification(msg: types.message):
 
 async def send_date(msg: types.message, state: FSMContext):
     date = msg.text
-    time_list = re.split('', date)
+    time_list = re.split('(\d+)', date)
     time_in_s = None
     if time_list[2] == "s":
         time_in_s = int(time_list[1])
@@ -44,8 +44,9 @@ async def send_date(msg: types.message, state: FSMContext):
         print('Turip ip ip')
     try:
         await database.insert_note(msg.from_user.id, datetime.now() + timedelta(seconds=time_in_s), notification)
-    except:
+    except Exception as e:
         await bot.send_message(msg.from_user.id, 'Error, please make sure you send correct date', reply_markup = client_kb.kb_client)
+        print(e)
     else:
         await bot.send_message(msg.from_user.id, 'New notification created sucessfuly', reply_markup = client_kb.kb_client)
     await state.finish()
@@ -54,7 +55,7 @@ async def command_my_notes(msg: types.message):
     rows = await database.execute("""SELECT * FROM notes WHERE user_id = ?""", (msg.from_user.id,), select=True, all=True)
     gen = ""
     for row in rows:
-        gen += f"{row[2]}: {row[1]}"
+        gen += f"{row[2]}: {row[1]}\n"
     if gen == "":
         await bot.send_message(msg.from_user.id, "Not found your notes.")
     else:

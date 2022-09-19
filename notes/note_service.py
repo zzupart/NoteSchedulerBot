@@ -1,5 +1,5 @@
 from datetime import datetime
-from database import database
+from database import *
 from create_bot import bot
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
@@ -9,11 +9,11 @@ async def start_service():
     scheduler.start()
 
 async def service():
-    rows = await database.execute("""SELECT * FROM notes""", select=True, all=True)
+    rows = await execute("""SELECT * FROM notes""", select=True, all=True)
 
     for row in rows:
         if datetime.now() >= datetime.fromisoformat(row[1]):
             await bot.send_message(row[0], row[2])
-            await database.delete_note(row[0], row[1], row[2])
+            await delete_note(row[0], row[1], row[2])
         else:
             return

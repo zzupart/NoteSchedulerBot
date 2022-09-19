@@ -5,7 +5,7 @@ from aiogram.types import ReplyKeyboardRemove
 from aiogram.dispatcher import Dispatcher, FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from create_bot import bot, dp
-from database import database
+from database import *
 from keyboards import client_kb
 
 class NoteMaker(StatesGroup):
@@ -43,7 +43,7 @@ async def send_date(msg: types.message, state: FSMContext):
     elif date == 0 or date == "0":
         print('Turip ip ip')
     try:
-        await database.insert_note(msg.from_user.id, datetime.now() + timedelta(seconds=time_in_s), notification)
+        await insert_note(msg.from_user.id, datetime.now() + timedelta(seconds=time_in_s), notification)
     except Exception as e:
         await bot.send_message(msg.from_user.id, 'Error, please make sure you send correct date', reply_markup = client_kb.kb_client)
         print(e)
@@ -52,7 +52,7 @@ async def send_date(msg: types.message, state: FSMContext):
     await state.finish()
 
 async def command_my_notes(msg: types.message):
-    rows = await database.execute("""SELECT * FROM notes WHERE user_id = ?""", (msg.from_user.id,), select=True, all=True)
+    rows = await execute("""SELECT * FROM notes WHERE user_id = ?""", (msg.from_user.id,), select=True, all=True)
     gen = ""
     for row in rows:
         gen += f"{row[2]}: {row[1]}\n"
